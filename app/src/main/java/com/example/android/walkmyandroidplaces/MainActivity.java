@@ -18,6 +18,7 @@ package com.example.android.walkmyandroidplaces;
 import android.Manifest;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import android.os.Bundle;
@@ -300,6 +301,19 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 }
             });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Place place = PlacePicker.getPlace(this, data);
+            setAndroidType(place);
+            mLocationTextView.setText(getString(R.string.address_text, place.getName(),
+                    place.getAddress(), System.currentTimeMillis()));
+        } else {
+            mLocationTextView.setText(R.string.no_place_name_found);
         }
     }
 
